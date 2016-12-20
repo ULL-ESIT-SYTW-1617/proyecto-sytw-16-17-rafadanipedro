@@ -59,6 +59,11 @@ const login = () => {
     res.render('reg', req.user)
   })
 
+  router.get('/login/email', (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/login')
+    res.render('email', req.user)
+  })
+
   router.post('/login/password', (req, res) => {
     if (bcrypt.compareSync(req.body.NewPass, req.user.password)) {
       return res.render('error', {error: true, message: 'La contraseña que tenías es la misma'})
@@ -80,6 +85,23 @@ const login = () => {
         res.render('error', {error: true, message: 'Las contraseñas no coinciden'})
       }
     }
+  })
+
+  router.post('/login/email', (req, res) => {
+    if (req.body.NewEmail !== req.body.ConfirmEmail) {
+      return res.render('error', {error: true, message: 'Los emails no coinciden'})
+    }
+
+    User.findOne({where: {email: req.user.email}})
+      .then(user =>
+        user.update({email: req.body.NewEmail})
+      )
+      .then(() =>
+        res.redirect('/logout')
+      )
+      .catch(err =>
+        res.render('error', {error: true, message: 'Hubo un error desconocido al intentar cambiarte la contraseña'})
+      )
   })
 
   router.post('/login/local', passport.authenticate('local', {failureRedirect : '/login'}), (req, res) => res.redirect('/'));
