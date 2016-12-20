@@ -25,6 +25,7 @@
     "bcrypt-nodejs": "0.0.3",
     "inquirer": "^1.2.2",
     "is-ip": "^1.0.0",
+    "md5": "^2.2.1",
     "path": "^0.12.7",
     "ssh-promise": "^2.1.0",
     "ssh2-sftp-client": "^1.0.5"

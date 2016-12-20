@@ -198,9 +198,9 @@
             <div id="cssmenu">
                 <div id="menu-button">BuBook</div>
                 <ul>
-                    <li class="active"><a href="#" data-title="Inicio">Inicio</a></li>
-                    <li><a href="#" data-title="Perfil">Perfil</a></li>
-                    <li><a href="#" data-title="Cerrar sesión">Cerrar sesión</a></li>
+                    <li><a href="/" data-title="Inicio">Inicio</a></li>
+                    <li><a href="/profile" data-title="Perfil">Perfil</a></li>
+                    <li><a href="/logout" data-title="Cerrar sesión">Cerrar sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -208,18 +208,8 @@
 
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<!-- jQuery -->
-
-
-<!-- MenuMaker Plugin -->
-<script src="https://s3.amazonaws.com/menumaker/menumaker.min.js"></script>
 
 <script>
-$("#cssmenu").menumaker({
-  title: "Menu",
-  breakpoint: 768,
-  format: "multitoggle"
-});
 
 $("#cssmenu a").each(function() {
   var linkTitle = $(this).text();

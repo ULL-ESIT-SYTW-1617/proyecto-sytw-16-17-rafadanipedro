@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        margin: 0;
+    }
+    iframe {
+        position:fixed;
+        left:0px;
+        bottom:0px;
+        height: -webkit-calc(100% - 46px);
+        height:    -moz-calc(100% - 46px);
+        height:         calc(100% - 46px);
+        width: 100%;
+        border: none;
+        z-index: 1;
+    }
+    .circular {
+    	width: 200px;
+    	height: 200px;
+    	border-radius: 15%;
+    	-webkit-border-radius: 15%;
+    	-moz-border-radius: 15%;
+    	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+	}
+</style>
+<% include ./layouts/head %>
+<% include ./layouts/header %>
+</head>
+<body>
+
+    <div class="login-form">
+
+        <img class="circular" src="<%= src %>" />
+
+        <% if(autenticadoConGithub) { %>
+
+        <h3 style="padding: 10px 0px; max-width: 388px">¡Hola <%= name %>!</h3>
+        <a href="/logout">
+                <button type="submit" class="log-btn" id="boton_github">Cerrar Sesión &nbsp;<i class="fa fa-github fa-lg" aria-hidden="true"></i></button>
+            </a>
+            <% } else { %>
+            <p style="padding-bottom: 10px; padding-top:30px;">¡Hola <%= name %>!</p>
+            <a href="/login/password">
+                <button type="submit" class="log-btn" id="boton_github">Cambiar contraseña &nbsp;<i class="fa fa-key fa-lg" aria-hidden="true"></i></button>
+            </a>
+            <a href="/login/email">
+                <button type="submit" class="log-btn" id="boton_github">Cambiar email &nbsp;<i class="fa fa-envelope fa-lg" aria-hidden="true"></i></button>
+            </a>
+            <% } %>
+
+    </div>
+
+
+</body>
+</html>
