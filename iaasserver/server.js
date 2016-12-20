@@ -11,6 +11,7 @@ const path = require ('path')
 const fs = require('fs')
 const https = require('https')
 const http = require('http')
+const md5= require ('md5')
 
 const config = require('./config.json')
 
@@ -79,11 +80,30 @@ app.use(localAuth.middleware(config))
 
 app.use('/libro', express.static(path.resolve(__dirname, 'gh-pages')))
 
+app.use('/profile', (req, res) => {
+  const autenticadoConGithub = req.user._json ? true : false
 
 
+  let src = ''
+  let name = ''
+  if(autenticadoConGithub) {
+    src = req.user._json.avatar_url
+    name = req.user.displayName
+  } else {
+    src = `https://www.gravatar.com/avatar/${md5(req.user.email)}?s=200`
+    name = req.user.email
+  }
+
+  res.render('profile', {
+    config: req.user,
+    src,
+    autenticadoConGithub,
+    name
+  })
+})
 
 app.get('*', (req, res) => {
-  res.render('libro')
+  res.render('libro', {user: req.user})
 })
 
 app.use((req, res) => {
