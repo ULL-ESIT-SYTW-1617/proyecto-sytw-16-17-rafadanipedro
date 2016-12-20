@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        margin: 0;
+    }
+    iframe {
+        position:fixed;
+        left:0px;
+        bottom:0px;
+        height: -webkit-calc(100% - 46px);
+        height:    -moz-calc(100% - 46px);
+        height:         calc(100% - 46px);
+        width: 100%;
+        border: none;
+        z-index: 1;
+    }
+</style>
+<% include ./layouts/head %>
+<% include ./layouts/header %>
+</head>
+<body>
+
+  <iframe src="/libro"></iframe>
+</body>
+</html>
