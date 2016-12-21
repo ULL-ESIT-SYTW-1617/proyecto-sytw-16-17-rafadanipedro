@@ -92,7 +92,7 @@ const authQuestions = {
       name: 'lectores',
       message: 'Escribe los correos separados por comas',
       default: 'alguien@algo.com, otro@algo.com',
-      filter: async (email) => {
+      filter: email => {
         let res = email.match(emailRegex)
         if (res) return res
         throw 'Email no valido'
@@ -114,9 +114,9 @@ const authQuestions = {
     {
       type: 'input',
       name: 'lectores',
-      message: 'Escribe los correos separados por comas',
+      message: 'Escribe los correos separados por comas. El primero de ellos será el administrador de la plataforma.',
       default: 'alguien@algo.com, otro@algo.com',
-      filter: async (email) => {
+      filter: email => {
         let res = email.match(emailRegex)
         if (res) return res
         throw 'Email no valido'

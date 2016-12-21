@@ -12,7 +12,7 @@ const fs = require('fs')
 const https = require('https')
 const http = require('http')
 const md5= require ('md5')
-
+//const User = require ('./models/user_db')
 const config = require('./config.json')
 
 
@@ -93,13 +93,28 @@ app.use('/profile', (req, res) => {
     src = `https://www.gravatar.com/avatar/${md5(req.user.email)}?s=200`
     name = req.user.email
   }
+  console.log(localAuth)
+  if (req.user.admin) {
+    localAuth.getModel().findAll().then(users => {
+      res.render('profile', {
+        config: req.user,
+        src,
+        autenticadoConGithub,
+        name,
+        admin: true,
+        users
+      })
+    })
+  } else {
+      res.render('profile', {
+      config: req.user,
+      src,
+      autenticadoConGithub,
+      name,
+      admin: false
+    })
+  }
 
-  res.render('profile', {
-    config: req.user,
-    src,
-    autenticadoConGithub,
-    name
-  })
 })
 
 app.get('*', (req, res) => {

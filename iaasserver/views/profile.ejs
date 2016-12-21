@@ -26,34 +26,125 @@
     	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
     	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	}
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+.table-container {
+    border:1px solid #ccc;
+    border-radius: 3px;
+    width:50%;
+}
+.table-container table {
+    width: 100%;
+}
+.scroll-container{
+    border-top:1px solid #ccc;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.scroll-container td:first-child{
+    border-right: 1px solid #ccc;
+}
+.scroll-container td{
+    border-bottom: 1px solid #ccc;
+}
+tr{
+    height: 50px;
+    padding:0;
+}
+td{
+    padding:2px;
+}
+
+.fa-trash:hover{
+    color:#B22222;
+    transition: 0.5s;
+}
+
+
 </style>
 <% include ./layouts/head %>
 <% include ./layouts/header %>
 </head>
 <body>
 
-    <div class="login-form">
+    <div class="login-form" style="width:700px">
 
         <img class="circular" src="<%= src %>" />
+        <h3 style="padding: 10px 0px">¡Hola <%= name %>!</h3>
 
         <% if(autenticadoConGithub) { %>
 
-        <h3 style="padding: 10px 0px; max-width: 388px">¡Hola <%= name %>!</h3>
         <a href="/logout">
                 <button type="submit" class="log-btn" id="boton_github">Cerrar Sesión &nbsp;<i class="fa fa-github fa-lg" aria-hidden="true"></i></button>
             </a>
             <% } else { %>
-            <p style="padding-bottom: 10px; padding-top:30px;">¡Hola <%= name %>!</p>
-            <a href="/login/password">
-                <button type="submit" class="log-btn" id="boton_github">Cambiar contraseña &nbsp;<i class="fa fa-key fa-lg" aria-hidden="true"></i></button>
-            </a>
-            <a href="/login/email">
-                <button type="submit" class="log-btn" id="boton_github">Cambiar email &nbsp;<i class="fa fa-envelope fa-lg" aria-hidden="true"></i></button>
-            </a>
+
+                <% if(admin) { %>
+                    <a href="/login/password">
+                        <button type="submit" class="log-btn" id="boton_github">Cambiar contraseña &nbsp;<i class="fa fa-key fa-lg" aria-hidden="true"></i></button>
+                    </a>
+                    <a href="/login/email">
+                        <button type="submit" class="log-btn" id="boton_github">Cambiar email &nbsp;<i class="fa fa-envelope fa-lg" aria-hidden="true"></i></button>
+                    </a>
+
+                    <table class="table-container" style="width: 640px; margin-top: 20px">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; font-size: 20px; padding: 5px 0px" >Tabla de usuarios</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="scroll-container">
+                                        <table>
+                                            <% users.forEach(user => { %>
+                                            <tr style="text-align: left">
+                                                <td>
+                                                    <input class="usuario" style="width: 550px; margin-left: 20px" type= "text" id="<%= user.id %>" value="<%= user.email %>"></input>
+                                                    <i style="margin-left: 10px;" class="fa fa-trash fa-lg"  id="TRASH<%= user.id %>" aria-hidden="true"></i>
+                                                </td>
+                                                </tr>
+                                            <% }) %>
+
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table-container" style="width: 640px; margin-top: 20px">
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; font-size: 20px; padding-top: 5px" >Crear usuario</td>
+                            </tr>
+                            <tr>
+                               <td>
+                                   <input type= "text" id="nuevousuario" placeholder="&#xf0e0;  Introduzca aquí un correo válido" style="width: 600px; font-family:Arial, FontAwesome" value=""></input>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                <% } else { %>
+                    <a href="/login/password">
+                        <button type="submit" class="log-btn" id="boton_github">Cambiar contraseña &nbsp;<i class="fa fa-key fa-lg" aria-hidden="true"></i></button>
+                    </a>
+                    <a href="/login/email">
+                        <button type="submit" class="log-btn" id="boton_github">Cambiar email &nbsp;<i class="fa fa-envelope fa-lg" aria-hidden="true"></i></button>
+                    </a>
+                <% } %>
             <% } %>
-
     </div>
-
-
+    <% if(admin) { %>
+        <script src="/assets/admin.js"></script>
+    <% } %>
 </body>
 </html>

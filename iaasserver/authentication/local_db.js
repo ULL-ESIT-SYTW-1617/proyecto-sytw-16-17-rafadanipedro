@@ -2,10 +2,13 @@ const passport = require('passport');
 const { Strategy } = require('passport-local')
 const bcrypt = require('bcrypt-nodejs')
 const Sequelize = require('sequelize')
+const express = require('express')
 const UserSchema = require('../models/user_db')
 
 let db
 let User
+
+const getModel = () => User
 
 const strategy = (config) => {
   db = new Sequelize('database', 'rafa', 'password', {
@@ -20,8 +23,10 @@ const strategy = (config) => {
 
     User.findOne().then(user => {
       if(!user) {
-        return Promise.all(config.BaseDatos.lectores.map(lector =>
-          User.create({email: lector, password: bcrypt.hashSync('1234')})
+        return Promise.all(config.BaseDatos.lectores.map((lector, i) =>
+            i === 0 ?
+              User.create({email: lector, password: bcrypt.hashSync('1234'), admin: true}) :
+              User.create({email: lector, password: bcrypt.hashSync('1234'), admin: false})
         ))
       }
     })
@@ -53,7 +58,7 @@ const strategy = (config) => {
 }
 
 const login = () => {
-  const router = require('express').Router()
+  const router = express.Router()
   router.get('/login/password', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/login')
     res.render('reg', req.user)
@@ -109,18 +114,47 @@ const login = () => {
   return router
 }
 
-const middleware = () => (req, res, next) => {
-  if (!req.user.password) {
-    return next()
-  }
-  if(bcrypt.compareSync('1234', req.user.password)) {
-    return res.redirect('/login/password')
-  }
-  next()
+const middleware = () => {
+  const router = express.Router()
+
+  // Comprobar que el uuario está autenticado
+  router.use((req, res, next) => {
+    if (!req.user.password) {
+      return next()
+    }
+    if(bcrypt.compareSync('1234', req.user.password)) {
+      return res.redirect('/login/password')
+    }
+    next()
+  })
+
+  router.post('/api/users', (req, res) => {
+    User.create({email: req.body.email, password: bcrypt.hashSync('1234')})
+    .then(() => res.send('Se ha creado correctamente el usuario!'))
+    .catch(err => res.status(500).send(err))
+  })
+
+  router.post('/api/users/:id', (req, res) => {
+    User.findById(req.params.id)
+    .then(user => user.update({email: req.body.email}))
+    .then(() => res.send('Tengo que modificar el email!'))
+    .catch(err => res.status(500).send(err))
+  })
+
+  router.delete('/api/users/:id', (req, res) => {
+    User.findById(req.params.id)
+    .then(reg => reg.destroy())
+    .then(() => res.send('Se ha eliminado correctamente el usuario!'))
+    .catch(err => res.status(500).send(err))
+  })
+
+  return router
 }
+
 
 module.exports = {
   strategy,
   login,
-  middleware
+  middleware,
+  getModel
 }
