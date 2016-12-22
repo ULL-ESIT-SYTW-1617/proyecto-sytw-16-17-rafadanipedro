@@ -130,7 +130,7 @@ app.use((req, res) => {
 })
 
 app.use((req, res) => res.render('error', {error: true}))
-/*
+
 const all = require('./https')
 
 all(config, config).then(keys => {
@@ -144,6 +144,5 @@ all(config, config).then(keys => {
 express().get('*', (req, res) => {
   res.redirect(`https://${config.host}:${config.puerto}${req.url}`)
 }).listen(8080);
-*/
 
-app.listen(process.env.PORT || 8080)
+app.listen(process.env.PORT || 3443)
