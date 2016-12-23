@@ -1,6 +1,6 @@
 {
   "name": "bubook-rafadanipedro",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Plugin como proyecto de SYTW",
   "scripts": {
     "build": "babel src -d dist"
