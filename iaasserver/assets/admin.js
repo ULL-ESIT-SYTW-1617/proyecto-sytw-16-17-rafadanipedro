@@ -17,8 +17,7 @@ $('#nuevousuario').on('keydown', e => {
 
 //jquery para eliminar email
 $('.fa-trash').click(e =>{
-    console.log('holaaaa')
-    eliminaUsuario(e.target, e.target.id, e.target.value)
+    eliminaUsuario(e.target.id.match(/TRASH(\d\d?)/)[1])
 })
 
 function cambiaCorreo(elemento, id, email) {
