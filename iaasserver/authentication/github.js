@@ -8,13 +8,14 @@ const strategy = (config) => {
     host,
     Github,
   } = config
+  let port = config.conexionSegura.puerto
 
   client = github.client({id: Github.clientID, secret: Github.clientSecret})
 
   return new Strategy({
     clientID: Github.clientID,
     clientSecret: Github.clientSecret,
-    callbackURL: `${host}/login/github/return`
+    callbackURL: `http${port ? 's' : ''}://${host}:${port || 8080}/login/github/return`
   },
   (accessToken, refreshToken, profile, cb) => cb(null, profile))
 }
