@@ -133,16 +133,21 @@ app.use((req, res) => {
 
 app.use((req, res) => res.render('error', {error: true}))
 
-const all = require('./https')
+if (config.conexionSegura[0] !== 'NoSegura') {
+  const all = require('./https')
 
-all(config, config).then(keys => {
-  https.createServer({
-    key: keys.serviceKey,
-    cert: keys.certificate},
-  app)
-  .listen(config.conexionSegura.puerto || 3443);
-})
+  all(config, config).then(keys => {
+    https.createServer({
+      key: keys.serviceKey,
+      cert: keys.certificate},
+    app)
+    .listen(config.conexionSegura.puerto || 3443);
+  })
 
-express().get('*', (req, res) => {
-  res.redirect(`https://${config.host}:${config.conexionSegura.puerto}${req.url}`)
-}).listen(8080);
+  express().get('*', (req, res) => {
+    res.redirect(`https://${config.host}:${config.conexionSegura.puerto}${req.url}`)
+  }).listen(8080);
+} else {
+  app.listen(8080)
+}
+
