@@ -15,20 +15,22 @@ const md5= require ('md5')
 //const User = require ('./models/user_db')
 const config = require('./config.json')
 
+let githubAuth = null
+let localAuth = null
 
-/*if(config.Local){
-  //let dropbox = false
-  const localAuth = dropbox ? require('./authentication/local') : require('./authentication/local_db')
-}*/
-const githubAuth = require('./authentication/github')
-const localAuth = require('./authentication/local_db')
+if (config.Github) {
+  githubAuth = require('./authentication/github')
+}
 
+if (config.BaseDatos) {
+  localAuth = require('./authentication/local_db')
+}
 
 const app = express();
 
 // NOTE: Configurar todas las est rategias
-passport.use(githubAuth.strategy(config))
-passport.use(localAuth.strategy(config))
+githubAuth ? passport.use(githubAuth.strategy(config)) : ''
+localAuth ? passport.use(localAuth.strategy(config)) : ''
 
 passport.serializeUser((user, cb) => cb(null, user));
 passport.deserializeUser((obj, cb) => cb(null, obj));
@@ -61,14 +63,14 @@ app.get('/error', (req, res) => {
 })
 // NOTE: Configurar todos los logins
 
-app.use(githubAuth.login())
-app.use(localAuth.login())
+githubAuth ? app.use(githubAuth.login()) : ''
+localAuth ? app.use(localAuth.login()) : ''
 
 // NOTE: configurar todos los middlewares
 
 app.use((req, res, next) => req.isAuthenticated() ? next() : res.redirect('/login'))
-app.use(githubAuth.middleware(config))
-app.use(localAuth.middleware(config))
+githubAuth ? app.use(githubAuth.middleware(config)) : ''
+localAuth ? app.use(localAuth.middleware(config)) : ''
 
 // Algo asi
 

@@ -41,7 +41,7 @@ const questions = [
     type: 'checkbox',
     name: 'tipoAutenticacion',
     message: '¿De que manera quieres autenticarte?',
-    choices: ['Github','Local','BaseDatos']
+    choices: ['Github','BaseDatos']
   },
   {
     type: 'checkbox',
