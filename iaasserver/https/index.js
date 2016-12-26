@@ -15,13 +15,13 @@ function createPrivateKey(options) {
 
 function createCertificate(options) {
   if (!options) options = {}
-  options.days = options.days || 1
-  options.selfSigned = options.selfSigned || true
-  options.country = options.country || 'ES'
-  options.state = options.state || 'SC de Tenerife'
-  options.locality = options.locality || 'La Laguna'
-  options.organization = options.organization || 'rafadanipedro'
-  options.commonName = options.commonName || 'rafadanipedro'
+  options.days = options.conexionSegura.days || 1
+  options.selfSigned = options.conexionSegura.selfSigned || true
+  options.country = options.conexionSegura.country || 'ES'
+  options.state = options.conexionSegura.state || 'SC de Tenerife'
+  options.locality = options.conexionSegura.locality || 'La Laguna'
+  options.organization = options.conexionSegura.organization || 'rafadanipedro'
+  options.commonName = options.conexionSegura.commonName || 'rafadanipedro'
 
   return new Promise((res, rej) => {
     pem.createCertificate(options, (err, keys) => {

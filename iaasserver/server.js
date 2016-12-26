@@ -138,9 +138,9 @@ all(config, config).then(keys => {
     key: keys.serviceKey,
     cert: keys.certificate},
   app)
-  .listen(config.puerto || 3443);
+  .listen(config.conexionSegura.puerto || 3443);
 })
 
 express().get('*', (req, res) => {
-  res.redirect(`https://${config.host}:${config.puerto}${req.url}`)
+  res.redirect(`https://${config.host}:${config.conexionSegura.puerto}${req.url}`)
 }).listen(8080);
