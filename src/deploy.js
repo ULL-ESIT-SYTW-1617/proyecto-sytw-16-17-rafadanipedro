@@ -1,15 +1,9 @@
-// TODO: devolver una promesa
-  // Copiar el gitbook generado (los html) y...
-  // Usar sftp-client (https://www.npmjs.com/package/ssh2-sftp-client) para:
-  // * Borrar las cosas generadas antiguas en el Iaaas...
-  // * Subir las cosas generadas local al remoto
-
 import SftpClient from 'ssh2-sftp-client'
 import path from 'path'
 import upload from './upload'
 import fs from 'fs'
 
-//funcion que realiza el despliegue del libro en el servidor Iaas, subiendo los archivos generados y actualizando el servidor.
+// Función que realiza el despliegue del libro en el servidor Iaas, subiendo los archivos generados y actualizando el servidor.
 export default async function deploy (config) {
 
   const connectConfig = {

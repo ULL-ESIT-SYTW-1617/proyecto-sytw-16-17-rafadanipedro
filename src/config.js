@@ -166,6 +166,5 @@ export default async function config () {
     cfg.conexionSegura = await inquirer.prompt(safeQuestions)
   }
 
-  console.log(cfg)
   return cfg
 }
