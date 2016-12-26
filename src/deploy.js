@@ -29,7 +29,12 @@ export default async function deploy (config) {
 
   try {
     await sftp.connect(connectConfig)
-    await sftp.rmdir(remoteGHpages, true)
+    console.log(remoteGHpages)
+    try {
+      await sftp.rmdir(remoteGHpages, true)
+    } catch(e) {
+      console.log('No existe la carpeta, continuando...')
+    }
     await upload(sftp, localGHpages, remoteGHpages)
     console.log('He terminado de subir el fichero')
     await sftp.end()

@@ -165,5 +165,7 @@ export default async function config () {
   if(cfg.conexionSegura[0] === 'Segura'){
     cfg.conexionSegura = await inquirer.prompt(safeQuestions)
   }
+
+  console.log(cfg)
   return cfg
 }
